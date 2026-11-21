@@ -1,0 +1,5 @@
+*.env
+!loop/*.env.example
+__pycache__/
+*.pyc
+/tmp/
