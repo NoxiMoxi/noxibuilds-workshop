@@ -1,4 +1,6 @@
-# project-kit
+# noxibuilds-workshop
+
+*An owner-in-the-loop multi-agent build workflow, by [@NoxiBuilds](https://x.com/NoxiBuilds).*
 
 **A starter kit for building software with a small team of AI bots and one human owner.** One command
 scaffolds a new project with a journey-first spec process, a gated headless Claude Code build loop driven by
@@ -59,7 +61,7 @@ Requirements: Linux with systemd (user units), `bash`, `git`, `jq`, `flock`, `in
 (webhook only), Python 3.9+ (slicer only), and the Claude Code CLI.
 
 ```bash
-git clone <this repo> project-kit && cd project-kit
+git clone <this repo> noxibuilds-workshop && cd noxibuilds-workshop
 ./init.sh my-app --dry-run            # preview: prints every path and the unit name, creates nothing
 ./init.sh my-app                       # scaffolds ~/projects/my-app (or --root DIR); installs nothing
 ```

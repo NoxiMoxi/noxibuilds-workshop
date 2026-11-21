@@ -1,3 +1,4 @@
+# noxibuilds-workshop - by @NoxiBuilds
 .PHONY: check lint test leaks
 SH := init.sh loop/queue-watch.sh loop/self-check.example.sh tests/smoke.sh tests/leak-scan.sh
 

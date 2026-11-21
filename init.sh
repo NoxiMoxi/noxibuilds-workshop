@@ -140,13 +140,13 @@ printf 'notify.env\n*.env\n' > "$TMP/review-log/.gitignore"
 
 gitc() {
   local args=()
-  git config user.name >/dev/null 2>&1 || args+=(-c user.name=project-kit)
-  git config user.email >/dev/null 2>&1 || args+=(-c user.email=project-kit@localhost)
+  git config user.name >/dev/null 2>&1 || args+=(-c user.name=noxibuilds-workshop)
+  git config user.email >/dev/null 2>&1 || args+=(-c user.email=noxibuilds-workshop@localhost)
   git -C "$TMP/review-log" "${args[@]}" "$@"
 }
 gitc init -q -b review-log
 gitc add -A
-gitc commit -q -m "init: scaffold $NAME review-log (project-kit)"
+gitc commit -q -m "init: scaffold $NAME review-log (noxibuilds-workshop)"
 
 mv -T "$TMP" "$PROJECT_DIR"
 trap - EXIT

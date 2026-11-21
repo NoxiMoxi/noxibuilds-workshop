@@ -1,6 +1,6 @@
-# Contributing
+# Contributing to noxibuilds-workshop
 
-Thanks for helping. This kit is small on purpose; contributions that keep it small and generic are the most welcome.
+Thanks for helping. noxibuilds-workshop is small on purpose; contributions that keep it small and generic are the most welcome.
 
 ## Ground rules
 - **Generic only.** No project names, people, domains, emails, hostnames, machine ids or private URLs in code, docs or examples. Use placeholders like `<project>` or `example.com`.
