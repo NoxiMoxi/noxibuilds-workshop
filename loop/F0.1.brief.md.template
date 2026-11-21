@@ -1,0 +1,32 @@
+# F0.1: Hello loop - add a one-line project note to the README [tier: feature]
+
+piece: F0.1
+slice: F0.1 (one slice)
+branch: task/F0.1-hello-loop
+final: yes
+max_changed_lines: 10
+max_test_lines: 0
+
+may_touch:
+  - README.md
+
+## Goal
+Prove the loop end to end: Claude makes a tiny change, the gate passes, a draft PR appears.
+
+## Journey (owner's words, verbatim)
+> n/a - loop smoke test, no user-facing behavior.
+
+## Kept or dropped
+none
+
+## Ask
+1. Add one line at the end of README.md: `Built with the @PROJECT@ build loop.`
+
+## Rules
+- Touch nothing else. No tests needed (max_test_lines 0).
+
+## Done looks like (acceptance)
+- README.md has the new line; nothing else changed.
+- Full self-check passes on the new head.
+- One commit with `Piece: F0.1`; draft PR `[F0.1] Hello loop` pushed to `task/F0.1-hello-loop`.
+- Ends with `LOOP: done piece=F0.1`.

@@ -1,0 +1,23 @@
+# @PROJECT@ - Claude queue
+
+The watcher runs the FIRST `## ` section whose heading says status `open`. Only a COMMITTED change to that
+section starts a run. Stage later work below it with status `staged`; flip it to `open` when its turn comes.
+
+Format of a section:
+
+    ## <feature id>: <title> - status: `open`
+    **Why:** one line, in the owner's words where possible.
+    - **<piece id>** <title> [tier: feature] brief: `docs/briefs/<piece id>.md` branch: `task/<piece id>-<slug>` slices: `<piece id>.1,<piece id>.2`
+
+Rules:
+- One piece = one draft PR on one `task/...` branch. Each slice brief lives at `docs/briefs/<slice id>.md`.
+- Tag every piece: `[tier: security|fix|debug|feature]` or `[model: <id>]`. Security-tier pieces keep their own short PR.
+- Close a piece by adding `<piece id> closed` to the heading or `status: \`closed\`` to its bullet.
+- If a piece is too big, Claude stops with `LOOP: blocked too big`; the CTO re-splits it (`<id>.1`, `<id>.2`).
+- Leave a slice out of `slices:` to keep the watcher from retrying it.
+
+---
+
+## F0: Hello loop - status: `staged`
+**Why:** prove the loop end to end on a trivial change before real work.
+- **F0.1** Add a /health note to the README [tier: feature] brief: `docs/briefs/F0.1.md` branch: `task/F0.1-hello-loop`

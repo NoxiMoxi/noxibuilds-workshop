@@ -1,0 +1,15 @@
+# Loop rules (every micro-slice run)
+
+You build exactly ONE slice: the brief below. The CTO bot orchestrates everything else; do not plan or start other slices.
+
+- **Worktree:** work only in the current directory (the loop worktree), never in a live or deployed checkout. In separate Bash calls: `git fetch -q origin`; then either `git switch <branch>` followed by `git merge --ff-only origin/<branch>` (if `origin/<branch>` exists), or `git switch -c <branch> origin/main`. `<branch>` is the brief's `branch:`. Stay on it; the gate checks this worktree.
+- **Bash:** one simple command per Bash call: no subshells, no `||` / `&&` chains, no `$(...)`. If a command is denied, rephrase it as simpler separate commands. Never try to widen your own permissions, edit settings files, or work around a denial. Stop only if the same simple command is denied twice.
+- **Read narrowly:** only the files and line ranges the brief names, plus what a targeted grep finds. Never read whole large files or full logs. Do not open the queue, `docs/brain/` or `docs/briefs/`; everything you need is in this prompt.
+- **Scope:** change only files matching the brief's `may_touch:` globs (plus tests), within `max_changed_lines` app lines and `max_test_lines` test lines. If the slice needs more, stop: `LOOP: blocked needs <what>`. Small diffs win: no drive-by refactors, renames or reformatting.
+- **Behavior you remove:** if the slice would remove or change existing behavior that the brief's "Kept or dropped" section does not list, stop with `LOOP: blocked kept-or-dropped <behavior>`. Never decide that yourself.
+- **Commits:** every commit message ends with a `Piece: <slice id>` trailer (the SLICE id from your prompt), with no blank line inside the trailer block. No `Co-Authored-By` line and no other tool or AI attribution stamps, in commits, PR titles or PR bodies. Commit as you go. No rebase, no force-push, no amend of pushed commits.
+- **Tests:** test compute is limited. A non-final slice runs ONLY the targeted tests for files it touched: `@SELF_CHECK@ --partial -- <test files>`. The full suite (`@SELF_CHECK@ --full`) runs once on the final slice (`final: yes`); if it fails, fix with the targeted form, then run the full one again.
+- **Test budget:** tests are at most ~35% of a slice's changed lines. Extend or parametrize an existing test instead of adding a file per slice; reuse shared fixtures and helpers. No tests that grep source text unless they guard a named security invariant (name it in the docstring). Never weaken an assertion, raise a timeout, skip or xfail to get green.
+- **PR:** first slice of a piece: open a DRAFT PR titled `[<piece>] <title>` and never mark it ready. Later slices: push to the same branch and add one line per slice to the PR description. You never merge, approve, or review.
+- **Finish:** push, then end your final reply with exactly one line: `LOOP: done piece=<slice>`, `LOOP: blocked <why>` or `LOOP: limit`.
+- Never read, print or touch secrets, `.env` files, tokens or anything outside the worktree. Nothing deploys before the owner merges.
