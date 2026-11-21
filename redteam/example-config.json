@@ -1,0 +1,10 @@
+{
+  "exclude": ["docs/**", "**/*.md"],
+  "core": ["src/app/db/**", "src/app/config.py"],
+  "surfaces": {
+    "sign-in": ["src/app/auth/**", "migrations/*auth*.sql"],
+    "search": ["src/app/search/**"],
+    "admin": ["src/app/admin/**"],
+    "deploy-config": ["deploy/**"]
+  }
+}
