@@ -10,9 +10,13 @@ turns that into tiny, scoped briefs; a headless Claude Code loop builds one micr
 zero-token gate; and specialist agents map the code, guard the user journeys, police the machine, and red-team
 the result. One command scaffolds a new project with all of it, isolated from every other project on the box.
 
+> **New to agents?** Tell your Grok Bot: *"Set me up from https://github.com/NoxiMoxi/noxibuilds-workshop"*.
+> It reads [GROKBOT.md](GROKBOT.md), creates a **Setup Guide** bot, and that bot walks you through everything, one step at a time.
+
 ---
 
 ## Contents
+- [Start here: GROKBOT.md](GROKBOT.md) (guided setup)
 - [Requirements and stack](#requirements-and-stack)
 - [How it works](#how-it-works)
 - [Core principles](#core-principles)
@@ -52,6 +56,7 @@ reference setup this kit was developed with.
 
 | Role | Who | Owns |
 | --- | --- | --- |
+| **Setup Guide** | Agent ([setup-guide.md](bots/setup-guide.md)) | Walks a new user through the whole setup, one checked step per message, then hands off to the CTO. |
 | **Owner** | Human | User journeys in their own words, "kept or dropped?" answers, merges, anything public. |
 | **CTO** | Agent ([cto.md](bots/cto.md)) | Specs and micro-slice briefs, the queue, one review per piece, deploys after the owner merges. |
 | **Cartographer** | Agent ([cartographer.md](bots/cartographer.md)) | Code map and context packs, route/page inventory after every deploy, Red Team slices. |
@@ -116,7 +121,24 @@ core **once**, give each surface its own files plus signature stubs of the core 
 
 ## Quickstart
 
-### 1. Scaffold a project
+### Guided path (recommended for first-timers)
+
+New to agents? Tell your Grok Bot:
+
+> **"Set me up from https://github.com/NoxiMoxi/noxibuilds-workshop"**
+
+Grok Bot follows [GROKBOT.md](GROKBOT.md): it creates a sidebar section and one bot, the **Setup Guide**
+([bots/setup-guide.md](bots/setup-guide.md)). The Setup Guide then takes you through ten checked steps, one per
+message: project name and goal, picking a machine, installing and verifying the prerequisites, creating your
+repository, creating the other five bots one at a time (each tells you exactly what it needs), running `init.sh`
+(dry run first), configuring the loop and its webhook (secrets only through masked forms, never chat), the
+journey interview, and the F0 hello-loop piece that proves it all works. Then it hands you to the CTO.
+
+### Manual path (advanced)
+
+Prefer to wire it yourself, or using another agent platform? Follow these steps.
+
+#### 1. Scaffold a project
 ```bash
 git clone <this repository> noxibuilds-workshop
 cd noxibuilds-workshop
@@ -126,7 +148,7 @@ cd noxibuilds-workshop
 `init.sh` refuses if `~/projects/my-app` or a `my-app-claude-watch.service` unit already exists, builds in a temp
 folder and moves it into place in one step, and never installs, enables, or starts anything.
 
-### 2. Configure the loop
+#### 2. Configure the loop
 ```bash
 $EDITOR ~/projects/my-app/loop/loop.env        # chmod 600, no secrets in here
 ```
@@ -153,7 +175,7 @@ Preview the next run without starting anything:
 LOOP_CONFIG=~/projects/my-app/loop/loop.env ~/projects/my-app/loop/bin/queue-watch.sh --plan
 ```
 
-### 3. Install the user unit
+#### 3. Install the user unit
 ```bash
 mkdir -p ~/.config/systemd/user
 cp ~/projects/my-app/loop/my-app-claude-watch.service ~/.config/systemd/user/
@@ -163,7 +185,7 @@ journalctl --user -u my-app-claude-watch -f        # the run log itself is ~/pro
 ```
 The first start records a baseline and runs nothing.
 
-### 4. Set up the agents in Grok Bot
+#### 4. Set up the agents in Grok Bot
 1. Create one bot per role and paste its file as standing instructions: `bots/common.md` plus one of
    `cto.md`, `cartographer.md`, `journey-keeper.md`, `lab-warden.md`, `red-team.md`.
 2. Point every bot at `~/projects/my-app/review-log/docs/brain/START.md` as its first read.
@@ -174,7 +196,7 @@ The first start records a baseline and runs nothing.
 
 Any other agent platform works the same way: standing instructions from `bots/`, repo access, a webhook.
 
-### 5. Write the first journey, then prove the loop
+#### 5. Write the first journey, then prove the loop
 1. Have Journey Keeper interview the owner and record the first journey **verbatim** in `docs/brain/journey.md`.
 2. Fill in `START.md` and `rules.md`.
 3. Prove the plumbing: in `docs/claude-queue.md`, change `F0` (a trivial hello-loop piece) from `staged` to
@@ -186,6 +208,7 @@ Any other agent platform works the same way: standing instructions from `bots/`,
 ## Repository layout
 
 ```
+GROKBOT.md                       what Grok Bot does when told "set me up from this repo"
 init.sh                          one-command project scaffold (--root, --dry-run; refuses to overwrite)
 loop/
   queue-watch.sh                 watcher: inotify -> hash -> lock -> claude -p -> gate -> chain/stop -> webhook
@@ -199,7 +222,7 @@ loop/
   self-check.example.sh          G4 stub with --full / --partial
   claude-watch.service.template  systemd user unit
 brain/                           START, rules, journey, decisions, review-log conventions (templates)
-bots/                            common rules + cto, cartographer, journey-keeper, lab-warden, red-team
+bots/                            common rules + setup-guide, cto, cartographer, journey-keeper, lab-warden, red-team
 redteam/                         SLICING.md, slicer.py (stdlib), example-config.json
 tests/                           smoke.sh (end-to-end, fake Claude), leak-scan.sh
 ```
@@ -272,6 +295,10 @@ rules in `bots/common.md` (one PASS line, one gate per batch, silent quiet wakes
 Yes. Set `LOOP_MODEL_SECURITY` / `LOOP_MODEL_FEATURE` to any model id the Claude Code CLI accepts, or tag a piece
 `[model: <id>]`. Red Team passes deliberately use different models; the local Ollama sweep can use any instruct
 model that fits your GPU.
+
+**I've never used agents. Where do I start?**
+Tell your Grok Bot "Set me up from https://github.com/NoxiMoxi/noxibuilds-workshop" and talk to the Setup Guide it
+creates. Every bot introduces itself and tells you, in plain words, what it needs from you before it starts.
 
 **Can I use it without Grok Bot?**
 Yes. The loop (`init.sh`, `queue-watch.sh`, the gate) has no dependency on any agent platform. The role files are
