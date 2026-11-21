@@ -1,0 +1,40 @@
+# @PROJECT@ - START HERE
+
+Every bot reads this file first on every wake, then ONLY the other brain docs its task needs.
+
+## What this project is
+<one paragraph, in the owner's words: who it is for and what they get>
+
+## Where truth lives
+| What | Where |
+| --- | --- |
+| Owner's journeys (source of truth for behavior) | `docs/brain/journey.md` |
+| Standing rules | `docs/brain/rules.md` |
+| Decisions, with date and the owner's words | `docs/brain/decisions.md` |
+| Review-log conventions | `docs/brain/review-log.md` |
+| Build queue | `docs/claude-queue.md` |
+| Briefs | `docs/briefs/` (`_loop.md` = Claude's standing rules) |
+| Loop config / state | `@PROJECT_DIR@/loop/loop.env`, `@PROJECT_DIR@/state/` |
+
+## Team
+| Role | File | Owns |
+| --- | --- | --- |
+| Owner (human) | - | Journeys, product calls, merges, anything public |
+| CTO | `bots/cto.md` | Specs, briefs, queue, reviews, deploys after merge |
+| Cartographer | `bots/cartographer.md` | Code map, route/page inventory, Red Team slices |
+| Journey Keeper | `bots/journey-keeper.md` | journey.md, journey checks of specs and inventories |
+| Lab Warden | `bots/lab-warden.md` | Machine layout, services, ports, loop installs |
+| Red Team | `bots/red-team.md` | Sliced security review passes |
+| Claude loop | `docs/briefs/_loop.md` | One micro-slice per run |
+
+## Current state
+- Phase: <design | building | go-live | maintenance>
+- Live `main`: <sha> (<date>)
+- Open piece: <id> (PR <link>)
+- Next gated piece: <id>
+- Waiting on the owner: <one line, or "nothing">
+
+## Go-live order
+1. <piece>
+2. Red Team passes (see `redteam/` in the kit)
+3. Owner's go/no-go

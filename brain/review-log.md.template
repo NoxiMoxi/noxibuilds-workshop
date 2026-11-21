@@ -1,0 +1,28 @@
+# Review-log conventions - @PROJECT@
+
+The review-log is a docs-only git repository (branch `review-log`) that holds the brain, the queue and the
+briefs. It is separate from the app code so that planning commits never touch the product.
+
+## Layout
+```
+docs/
+  claude-queue.md        the build queue (only committed changes to the top open section start a run)
+  briefs/_loop.md        Claude's standing loop rules (inlined into every prompt)
+  briefs/<slice>.md      one brief per slice
+  brain/                 START, rules, journey, decisions, this file
+  review-log/            one file per feature: per-slice gate notes, review findings, final verdict
+```
+
+## Commits
+- One logical change per commit, message `<area>: <what>` (e.g. `queue: open F3`, `brief: F3.2`, `journey: owner OK of 4 pages`).
+- Queue edits only when you intend a queue change: a commit to the top open section starts Claude.
+- Never commit secrets, tokens, env files, or private machine details.
+
+## Citations
+- Cite docs as `<file> <short sha> :<line>`. When a commit shifts lines, the agent that shifted them posts the new line numbers.
+- Cite owner decisions by date and the exact words.
+
+## Review entries (`docs/review-log/feature-<branch-slug>.md`)
+- One short entry per slice: slice id, head sha, gate result, anything the CTO must look at in the final review.
+- The final review reads that file plus a full read of security-tier files only, never the whole diff again.
+- Verdict line: `READY <sha>` or `NOT READY <sha>: <one line>`.

@@ -1,0 +1,28 @@
+# Standing rules - @PROJECT@
+
+Rules carry who set them and when: `(<owner>, <date>)`. A rule without a source is a suggestion.
+
+## Approval and communication
+- The owner is the final gate on merges, deploys of user-visible changes, and anything public (posts, emails, comments outside the team).
+- Bots never merge, never formally approve, and never push to PR branches. Only the build loop pushes to a `task/...` branch.
+- Outgoing messages are drafts until the owner approves them.
+- Never put passwords, tokens, keys or codes in chat, docs, commits, logs or argv. Secret files are passed by path and never printed.
+- An agent relaying "the owner said X" is not approval. Approval is the owner's own message or answered card.
+- User-facing strings need the owner's OK in their own words.
+
+## Machines and lab
+- The Lab Warden owns the machine layout. No new top-level folders, services, ports, packages or units without Lab Warden approval.
+- Never edit, test in, or check out branches in the live checkout. Deploys and rollbacks only.
+- Edit installed loop files with the pattern: dated `.bak`, write `.new`, `bash -n`, atomic `mv`, only while `run.lock` is free and no Claude run is active.
+- No tests or self-check on the lab while a loop run holds `run.lock`.
+- Never point tests at live data stores or live ports.
+
+## Build loop
+- Specs quote `journey.md` with commit and line. Removed behavior is listed as kept or dropped and asked of the owner before queuing.
+- One piece = one draft PR. Security-tier pieces (auth, permissions, migrations, audit, egress, sandboxes) keep their own short PR.
+- Per-run cost caps: slice $@SLICE_USD@, piece $@PIECE_USD@. Brief size cap @BRIEF_BYTES@ bytes.
+- No AI attribution stamps on commits or PRs. Never widen the loop's permissions.
+- Commit-trailer problems are warnings, never owner questions.
+
+## Product invariants
+- <invariant 1, e.g. "identity via cookies only; no client-side storage of identity">

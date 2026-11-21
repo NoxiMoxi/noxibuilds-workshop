@@ -1,0 +1,19 @@
+# Journeys - @PROJECT@ (source of truth)
+
+**This file is the owner's words, verbatim.** Bots do not paraphrase, tidy, or "improve" it. Journey Keeper
+appends; nobody rewrites. Specs and reviews cite it as `journey.md <sha> :<line>`, so record the commit
+whenever lines shift.
+
+How to add to it: the owner describes a flow in chat; Journey Keeper pastes it here verbatim under a dated
+heading, with the source (message id or card), and commits. Approvals of pages or behaviors are recorded the same way.
+
+---
+
+## <date> - <journey name> (owner, <source>)
+> <paste the owner's exact words>
+
+### Pages and routes this journey uses (owner-approved)
+- <route> - <why, owner's words> (owner OK <date>)
+
+### Explicitly not wanted
+- <e.g. "no interstitials", "no confirmation screens">

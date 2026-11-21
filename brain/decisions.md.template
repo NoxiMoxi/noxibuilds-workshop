@@ -1,0 +1,7 @@
+# Decisions - @PROJECT@
+
+Newest first. Each entry: date, decision, the owner's exact words (or "CTO call, reversible"), and what it replaces.
+
+## <date> - <decision>
+- Owner: "<quote>"
+- Replaces: <old behavior or "nothing">
