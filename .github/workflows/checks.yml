@@ -68,6 +68,8 @@ jobs:
           # Forks do not receive secrets on pull_request. Check the fork flag first so a
           # push (where pull_request is absent) is not treated as a fork.
           LEAK_IS_FORK: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == true }}
+          # Public repo slug. Used only to build the allow pattern; never written into the file.
+          LEAK_REPOSITORY: ${{ github.repository }}
         run: |
           set -euo pipefail
           set +x
@@ -95,7 +97,16 @@ jobs:
               escaped=$(printf '%s' "$term" | sed -e 's/%/%25/g' -e 's/\r/%0D/g')
               printf '::add-mask::%s\n' "$escaped"
             done < "$terms"
+            # Equivalent to github(\\)?\.com/<owner>/<repo>. The slug is escaped here so
+            # this file never contains the owner or repo name.
+            repo_slug=${LEAK_REPOSITORY:?}
+            owner=${repo_slug%%/*}
+            name=${repo_slug#*/}
+            ere_escape() { printf '%s' "$1" | sed -e 's/[][(){}.+*?^$|\\]/\\&/g'; }
+            owner_esc=$(ere_escape "$owner")
+            name_esc=$(ere_escape "$name")
+            allow="github(\\\\)?\\.com/${owner_esc}/${name_esc}"
             LEAK_TERMS_FILE="$terms" \
-              LEAK_TERMS_ALLOW='github(\\)?\.com/NoxiMoxi/noxibuilds-workshop' \
+              LEAK_TERMS_ALLOW="$allow" \
               bash tests/leak-scan.sh
           fi
