@@ -20,11 +20,11 @@ Every bot reads this file first on every wake, then ONLY the other brain docs it
 | Role | File | Owns |
 | --- | --- | --- |
 | Owner (human) | - | Journeys, product calls, merges, anything public |
-| CTO | `bots/cto.md` | Specs, briefs, queue, reviews, deploys after merge |
-| Cartographer | `bots/cartographer.md` | Code map, route/page inventory, Red Team slices |
-| Journey Keeper | `bots/journey-keeper.md` | journey.md, journey checks of specs and inventories |
-| Lab Warden | `bots/lab-warden.md` | Machine layout, services, ports, loop installs |
-| Red Team | `bots/red-team.md` | Sliced security review passes |
+| CTO | `modules/claude-code-loop/cto.md` | Specs, briefs, queue, reviews, deploys after merge |
+| Cartographer | `modules/codegraph/cartographer.md` | Code map, route/page inventory, Red Team slices |
+| Journey Keeper | `modules/journey-keeper/journey-keeper.md` | journey.md, journey checks of specs and inventories |
+| Lab Warden | `modules/lab-monitor/lab-warden.md` | Machine layout, services, ports, loop installs |
+| Red Team | `modules/redteam/red-team.md` | Sliced security review passes |
 | Claude loop | `docs/briefs/_loop.md` | One micro-slice per run |
 
 ## Current state
@@ -36,5 +36,5 @@ Every bot reads this file first on every wake, then ONLY the other brain docs it
 
 ## Go-live order
 1. <piece>
-2. Red Team passes (see `redteam/` in the kit)
+2. Red Team passes (see `modules/redteam/` in the kit)
 3. Owner's go/no-go

@@ -161,7 +161,7 @@ printf 'from app.db import core\n\ndef login():\n    return core.connect()\n' > 
 printf 'from app.db.core import connect\n\ndef find():\n    return connect()\n' > "$R/app/search/find.py"
 touch "$R/app/__init__.py" "$R/app/db/__init__.py"
 printf '{"surfaces": {"auth": ["app/auth/**"], "search": ["app/search/**"]}}' > "$T/slices.json"
-python3 "$KIT/redteam/slicer.py" --repo "$R" --config "$T/slices.json" --json "$T/plan.json" --emit "$T/emit" > "$T/plan.md"
+python3 "$KIT/modules/redteam/slicer.py" --repo "$R" --config "$T/slices.json" --json "$T/plan.json" --emit "$T/emit" > "$T/plan.md"
 python3 - "$T/plan.json" <<'PY'
 import json, sys
 p = json.load(open(sys.argv[1]))

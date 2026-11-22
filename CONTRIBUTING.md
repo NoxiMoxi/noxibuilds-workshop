@@ -1,6 +1,6 @@
-# Contributing to noxibuilds-workshop
+# Contributing
 
-Thanks for helping. noxibuilds-workshop is small on purpose; contributions that keep it small and generic are the most welcome.
+Thanks for helping. This kit is small on purpose; contributions that keep it small and generic are the most welcome.
 
 ## Ground rules
 - **Generic only.** No project names, people, domains, emails, hostnames, machine ids or private URLs in code, docs or examples. Use placeholders like `<project>` or `example.com`.
@@ -10,13 +10,14 @@ Thanks for helping. noxibuilds-workshop is small on purpose; contributions that 
 
 ## Before you open a PR
 ```bash
-make check        # shellcheck (or bash -n), python compile, smoke tests, leak scan
+make check        # shellcheck (or bash -n), python compile, smoke tests, structure tests, leak scan
 ```
 or by hand:
 ```bash
-shellcheck init.sh loop/*.sh tests/*.sh     # or: bash -n <file>
-python3 -m py_compile redteam/slicer.py
+shellcheck init.sh modules/claude-code-loop/loop/*.sh tests/*.sh     # or: bash -n <file>
+python3 -m py_compile modules/redteam/slicer.py
 bash tests/smoke.sh
+bash tests/structure.sh
 bash tests/leak-scan.sh
 ```
 
@@ -26,4 +27,4 @@ bash tests/leak-scan.sh
 - Docs: short sentences, concrete examples, no marketing.
 
 ## Reporting a security issue
-Please do not open a public issue. Contact the maintainers privately (see the repository's security policy) with steps to reproduce.
+Please do not open a public issue. Use the repository's private vulnerability reporting, described in [SECURITY.md](SECURITY.md), and include steps to reproduce.

@@ -57,10 +57,17 @@ if [ "${PK_SKIP_SYSTEMCTL:-0}" != 1 ] && command -v systemctl >/dev/null 2>&1; t
     die "systemd already knows a user unit named $UNIT; refusing" 3
   fi
 fi
+LOOP_KIT=modules/claude-code-loop/loop
+BRAIN_KIT=modules/claude-code-loop/brain
+JOURNEY_KIT=modules/journey-keeper/journey.md.template
 for f in queue-watch.sh self-check.example.sh _loop.md.template brief.template.md claude-queue.md.template \
          loop.env.example notify.env.example claude-watch.service.template F0.1.brief.md.template; do
-  [ -f "$KIT_DIR/loop/$f" ] || die "kit file missing: loop/$f (run init.sh from a full kit checkout)"
+  [ -f "$KIT_DIR/$LOOP_KIT/$f" ] || die "kit file missing: $LOOP_KIT/$f (run init.sh from a full kit checkout)"
 done
+for f in START.md.template rules.md.template decisions.md.template review-log.md.template; do
+  [ -f "$KIT_DIR/$BRAIN_KIT/$f" ] || die "kit file missing: $BRAIN_KIT/$f (run init.sh from a full kit checkout)"
+done
+[ -f "$KIT_DIR/$JOURNEY_KIT" ] || die "kit file missing: $JOURNEY_KIT (run init.sh from a full kit checkout)"
 
 # --- the plan --------------------------------------------------------------------------------------------
 # Each entry: "<kind>|<kit source or ->|<destination relative to the project dir>"
@@ -70,20 +77,20 @@ PLAN=(
   "dir|-|review-log/docs/review-log"
   "dir|-|loop/bin"
   "dir|-|state"
-  "tpl|brain/START.md.template|review-log/docs/brain/START.md"
-  "tpl|brain/rules.md.template|review-log/docs/brain/rules.md"
-  "tpl|brain/journey.md.template|review-log/docs/brain/journey.md"
-  "tpl|brain/decisions.md.template|review-log/docs/brain/decisions.md"
-  "tpl|brain/review-log.md.template|review-log/docs/brain/review-log.md"
-  "tpl|loop/claude-queue.md.template|review-log/docs/claude-queue.md"
-  "tpl|loop/_loop.md.template|review-log/docs/briefs/_loop.md"
-  "tpl|loop/brief.template.md|review-log/docs/briefs/TEMPLATE.md"
-  "tpl|loop/F0.1.brief.md.template|review-log/docs/briefs/F0.1.md"
-  "tpl|loop/loop.env.example|loop/loop.env"
-  "cpy|loop/notify.env.example|loop/notify.env"
-  "tpl|loop/claude-watch.service.template|loop/$UNIT"
-  "exe|loop/queue-watch.sh|loop/bin/queue-watch.sh"
-  "exe|loop/self-check.example.sh|loop/bin/self-check.sh"
+  "tpl|$BRAIN_KIT/START.md.template|review-log/docs/brain/START.md"
+  "tpl|$BRAIN_KIT/rules.md.template|review-log/docs/brain/rules.md"
+  "tpl|$JOURNEY_KIT|review-log/docs/brain/journey.md"
+  "tpl|$BRAIN_KIT/decisions.md.template|review-log/docs/brain/decisions.md"
+  "tpl|$BRAIN_KIT/review-log.md.template|review-log/docs/brain/review-log.md"
+  "tpl|$LOOP_KIT/claude-queue.md.template|review-log/docs/claude-queue.md"
+  "tpl|$LOOP_KIT/_loop.md.template|review-log/docs/briefs/_loop.md"
+  "tpl|$LOOP_KIT/brief.template.md|review-log/docs/briefs/TEMPLATE.md"
+  "tpl|$LOOP_KIT/F0.1.brief.md.template|review-log/docs/briefs/F0.1.md"
+  "tpl|$LOOP_KIT/loop.env.example|loop/loop.env"
+  "cpy|$LOOP_KIT/notify.env.example|loop/notify.env"
+  "tpl|$LOOP_KIT/claude-watch.service.template|loop/$UNIT"
+  "exe|$LOOP_KIT/queue-watch.sh|loop/bin/queue-watch.sh"
+  "exe|$LOOP_KIT/self-check.example.sh|loop/bin/self-check.sh"
   "git|-|review-log (git init, branch review-log, first commit)"
 )
 
@@ -172,5 +179,5 @@ Nothing was installed, enabled or started. Next steps:
        systemctl --user enable --now $UNIT
      The first start only records a baseline. To run F0.1, flip it to status \`open\` in
      docs/claude-queue.md and commit on the review-log branch.
-  8. Give each bot its persona from the kit's bots/ folder, pointed at $PROJECT_DIR/review-log/docs/brain/START.md
+  8. Give each bot its persona from the kit's modules/ folders, pointed at $PROJECT_DIR/review-log/docs/brain/START.md
 NEXT

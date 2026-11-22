@@ -1,5 +1,5 @@
 *.env
-!loop/*.env.example
+!modules/claude-code-loop/loop/*.env.example
 __pycache__/
 *.pyc
 /tmp/
