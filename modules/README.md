@@ -6,7 +6,7 @@ When a wish outgrows one slice, add modules in this order.
 
 1. **[claude-code-loop](claude-code-loop/MODULE.md)** slices a large wish into micro-slices and builds them one at a time. This is the first add.
 2. **[journey-keeper](journey-keeper/MODULE.md)** comes with that loop. It keeps large slices honest against the user's journey, word for word.
-3. **[codegraph](codegraph/MODULE.md)** keeps a map of the code so later bots read a small pack instead of the whole repository.
+3. **[codegraph](codegraph/MODULE.md)** maps real code, such as JavaScript, TypeScript, or Python, so later bots read a small pack. It is free, it needs no key, and a cloud agent can install it. A simple HTML page gets little from it.
 4. **[redteam](redteam/MODULE.md)** reviews the result in sliced adversarial passes before a go-live.
 5. **[lab-monitor](lab-monitor/MODULE.md)** wards the local build machine: folders, services, ports, and the loop install.
 

@@ -25,7 +25,7 @@ scan "api key"       '(sk|rk)-[A-Za-z0-9_-]{20,}|AKIA[0-9A-Z]{16}|xox[abposr]-[A
 scan "uuid / machine id" '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'
 scan "long hex secret" '[0-9a-f]{48,}'
 scan "email"         '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}' '@(localhost|example\.(com|org)|users\.noreply\.invalid)|:[A-Z_]+@'
-scan "url"           'https?://[^ )"`>]+' 'https?://(example\.(com|org)|127\.0\.0\.1|localhost|x\.com/NoxiBuilds$|github\.com/NoxiMoxi/noxibuilds-workshop$|docs\.anthropic\.com/|ollama\.com$|cli\.github\.com$|img\.shields\.io/badge/license-MIT-blue\.svg$|<branch-slug$|<worker$)'
+scan "url"           'https?://[^ )"`>]+' 'https?://(example\.(com|org)|127\.0\.0\.1|localhost|x\.com/NoxiBuilds$|github\.com/NoxiMoxi/noxibuilds-workshop$|docs\.anthropic\.com/|ollama\.com$|cli\.github\.com$|img\.shields\.io/badge/license-MIT-blue\.svg$|raw\.githubusercontent\.com/colbymchenry/codegraph/main/install\.sh$|<branch-slug$|<worker$)'
 scan "home path"     '/home/[a-z][a-z0-9_-]+|/Users/[A-Za-z][A-Za-z0-9_-]+'
 
 if [ -n "${LEAK_TERMS_FILE:-}" ]; then

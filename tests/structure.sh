@@ -98,4 +98,25 @@ if printf '%s\n' "$intro_readme" | grep -E -i -q 'retire'; then
 fi
 ok "GROKBOT.md is the primary-bot onboarding manual"
 
+need() { grep -q -F -- "$2" "$1" || no "$1 is missing: $2"; }
+need intro/LOOP.md '```mermaid'
+need intro/LOOP.md 'confirm: true'
+need intro/LOOP.md 'unwatch'
+need intro/LOOP.md 'SendToAgent'
+need intro/ROUTINES.md 'pr-opened'
+need intro/ROUTINES.md 'pr-merged'
+need intro/ROUTINES.md 'ciBranch'
+need intro/ROUTINES.md 'userAllowlist'
+need intro/ROUTINES.md '<your-github-login>'
+need intro/CLOUDFLARE.md 'pr-comment'
+need modules/codegraph/MODULE.md 'CODEGRAPH_TELEMETRY=0'
+need modules/codegraph/MODULE.md 'raw.githubusercontent.com/colbymchenry/codegraph/main/install.sh'
+ok "loop, routines, and codegraph state the tested facts"
+
+if grep -RInF -e 'Sends fix rounds' -e 'the Build Watcher does.' -e 'preview comment or user comment' -e 'Read the real link from the Cloudflare comment' intro GROKBOT.md README.md >/dev/null; then
+  grep -RInF -e 'Sends fix rounds' -e 'the Build Watcher does.' -e 'preview comment or user comment' -e 'Read the real link from the Cloudflare comment' intro GROKBOT.md README.md >&2 || true
+  no "kit still describes the old watcher loop"
+fi
+ok "old watcher loop is gone"
+
 echo "all $pass structure tests passed"

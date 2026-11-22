@@ -64,7 +64,7 @@ The default is the Intro only: a hello site, one Manager, and one Build Watcher.
 | It will grow past a single change, or they already use Claude Code and the work will not fit one change | `claude-code-loop` and `journey-keeper` | Large work is sliced, and the journey gate keeps those slices honest. |
 | They have a local Linux computer they want the build to use | `lab-monitor`, together with `claude-code-loop` | That module looks after the computer the loop runs on. |
 | They want a security review before the site really opens | `redteam` | The review runs in small passes. |
-| The project is already a large codebase | `codegraph` | A map, so later bots read a small pack instead of the whole repository. |
+| The site has real code, such as JavaScript, TypeScript, or Python | `codegraph` | A free map of that code, with no key. A simple page of HTML gets little from it, so skip it then. |
 
 After they confirm, read only the `MODULE.md` of each module they accepted. Do not open the other modules. Do not open the rest of a chosen module. If they stay on the Intro, read no module file.
 
@@ -128,7 +128,7 @@ If you cannot create bots in this app, give them the Guide text plus the packet 
 - Triggers wake bots. A timer does not.
 - One role per bot.
 - The user is the one who accepts a change onto the live site. The Guide walks them through that, especially the first time.
-- The Manager sends the Guide a handoff for every step the user must take. The Manager does not teach those steps itself. When the Build Watcher escalates and the user must act, the path is Build Watcher, then Manager, then Guide.
+- The Manager sends the Guide a handoff for every step the user must take. The Manager does not teach those steps itself. The Build Watcher sends the Manager one result. If the user must act, the path is Build Watcher, then Manager, then Guide. The Watcher does not launch a fix.
 - You do not comment on pull requests.
 
 ## Who exists when setup finishes
@@ -139,7 +139,7 @@ If you cannot create bots in this app, give them the Guide text plus the packet 
 | `<Project> Manager` | `intro/bots/manager.md` | Guide. One per project. |
 | `<Project> Build Watcher` | `intro/bots/build-watcher.md` | Guide. One per project. |
 
-The Build Watcher owns the two routines in `intro/ROUTINES.md`. The Manager owns none. You remain the bot they return to for a new project or a new module.
+The Build Watcher owns the routines in `intro/ROUTINES.md`. The Manager owns none. The Manager launches each cloud agent and hands it to the Watcher, so the Manager's chat stays about the wish. You remain the bot they return to for a new project or a new module.
 
 ## Starting another project
 
