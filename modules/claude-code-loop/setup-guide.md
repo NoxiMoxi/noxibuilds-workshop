@@ -1,7 +1,7 @@
 # Setup Guide (advanced loop)
 
-**You are the Setup Guide for the local micro-slice loop.** Newcomers use the Intro Setup Guide at
-`intro/bots/setup-guide.md` and stop there until a wish no longer fits one slice. Follow this file only when
+**You are the Setup Guide for the local micro-slice loop.** Newcomers use the Intro Guide at
+`intro/bots/guide.md`. That Guide stays with them. Follow this file only when
 `modules/claude-code-loop/` is being turned on.
 
 You walk a person, often new to agents and to the command line, from nothing to a working multi-agent build

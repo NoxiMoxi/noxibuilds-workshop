@@ -1,6 +1,6 @@
 # The Intro loop
 
-One wish becomes one small slice. A cloud agent opens one pull request. The Build Watcher checks it. The user presses Merge. The live site updates. Then everyone stops until the next wish.
+One wish becomes one small slice. A cloud agent opens one pull request. The Build Watcher checks it. The Guide walks the user through accepting it. The live site updates. Then everyone waits until the next wish.
 
 Read [CLOUDFLARE.md](CLOUDFLARE.md) for the preview link, the check name, and the rule that cloud agents wait for the build.
 
@@ -8,12 +8,13 @@ Read [CLOUDFLARE.md](CLOUDFLARE.md) for the preview link, the check name, and th
 
 | Who | Does this | Stays quiet about |
 | --- | --- | --- |
-| User | Says the wish. Presses Merge. | Writing the slice, reviewing the diff |
-| Manager | Turns the wish into one issue. Launches one cloud agent. Tells the user when a digest arrives. | Pull request comments |
-| Build Watcher | Checks the slice, the preview, and the tests. Sends fix rounds. Sends one digest. | The user, and pull request comments |
+| User | Says the wish in their own words. | Writing the slice |
+| Guide | Every click, sign-up, login, approval, and merge. One step at a time. Reports back. | Deciding what the site should say |
+| Manager | Turns the wish into one issue. Launches one cloud agent. Sends the Guide a handoff when the user must do something. | Clicks, logins, and pull request comments |
+| Build Watcher | Checks the slice, the preview, and the tests. Sends fix rounds. Sends one digest. | The user. The Guide. Pull request comments |
 | Cloud agent | Edits only the files in the issue and opens the pull request. Waits for the build. | New wishes, merging |
 
-One role per bot. The Manager is the only bot that talks to the user about the wish.
+One role per bot. The Manager talks with the user about wishes. The Guide talks with the user about steps.
 
 ## End to end
 
@@ -22,11 +23,11 @@ One role per bot. The Manager is the only bot that talks to the user about the w
 3. The cloud agent opens a pull request, puts a done note in the description, and waits until the check `Workers Builds: <worker-name>` finishes.
 4. The Cloudflare bot `cloudflare-workers-and-pages[bot]` comments with the preview link. That comment wakes the Build Watcher (routine R1 in [ROUTINES.md](ROUTINES.md)).
 5. The Build Watcher runs the review checklist. A failure sends a fix round straight to the same cloud agent, on the same pull request. A pass sends the Manager one `DIGEST ready`.
-6. The Manager tells the user the slice is ready and includes the preview link. The user presses Merge when they like it.
+6. The Manager sends the Guide one handoff: show the preview, and if the user likes it, accept the change onto the live site. The Guide explains the first merge one click at a time, confirms the page shows it is merged, celebrates, and reports back to the Manager.
 7. The merge wakes the Build Watcher (routine R2). It waits until the production build has succeeded and the live site shows the change, then sends one `DIGEST live`.
-8. The Manager celebrates in one message and suggests one next small step from the journey. It does not start that step.
+8. The Manager celebrates in plain words and suggests one next small wish from the journey. It does not start that wish, and it does not add click steps.
 
-A comment by the user on the pull request is a change request. The Build Watcher treats it as a fix round. If the comment asks for files outside the slice, the Watcher does not widen the slice. It escalates to the Manager.
+A comment by the user on the pull request is a change request. The Build Watcher treats it as a fix round. If the comment asks for files outside the slice, the Watcher does not widen the slice. It escalates to the Manager. If the user must click, sign in, or approve something, the digest says `needs_user: yes`, and the Manager sends that to the Guide. The Watcher never messages the user.
 
 ## Slice format
 
@@ -115,16 +116,36 @@ pr: <link>
 starts: <used>/4
 fix_rounds: <used>/2
 why: <one line>
+needs_user: yes | no
 ```
 
-The Manager turns a `ready` digest into one message to the user with the preview link, and a `live` digest into one celebration plus one suggested next step. It does not add a running commentary.
+`needs_user: yes` means the next step is a click, a login, a code from their phone, an approval, or a merge. The Manager then sends the Guide a handoff. `needs_user: no` means the Manager can decide from the journey, or ask one plain product question, with no screens to walk through.
+
+## Handoff to the Guide
+
+Any bot that needs the user to do something sends this to the Guide and waits. The Manager uses it for every merge and for every escalation with `needs_user: yes`. The primary bot uses it for sign-ups and connections during setup only by creating the Guide and letting the Guide run the checklist. Nobody else writes the click path.
+
+```text
+HANDOFF
+to: Guide
+from: <bot name>
+project: <display name>
+needed: <what the user must do, in plain words>
+why: <one sentence>
+done when: <what the Guide confirms before it reports back>
+```
+
+The Guide answers with `HANDOFF done`, as written in [bots/guide.md](bots/guide.md).
+
+The Manager turns a `ready` digest into that handoff, and a `live` digest into one celebration plus one suggested next wish. It does not add a running commentary, and it does not tell the user which buttons to press.
 
 ## Habits
 
 - Triggers wake bots. Timers, polling, and heartbeats do not.
 - Read `docs/journey.md` before planning. Write the user's words there unchanged.
 - One wish, one slice, one pull request.
-- The user merges. Bots do not merge, approve, or push to the pull request branch.
+- The user accepts a change onto the live site. The Guide is who walks them through it. Bots do not merge, approve, or push to the pull request branch.
+- The Manager never instructs the user through a technical step. That handoff goes to the Guide.
 - The Manager and the Build Watcher never comment on pull requests, so a comment cannot wake them.
 - One digest, then stop. A quiet result does not produce a second message.
 - Private repository by default.

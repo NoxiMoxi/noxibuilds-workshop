@@ -1,6 +1,6 @@
 # Routines
 
-The Build Watcher owns exactly two routines, on the one project repository. The Manager has none. The Setup Guide creates these when it creates the Build Watcher, then never adds another.
+The Build Watcher owns exactly two routines, on the one project repository. The Manager has none. The Guide creates these when it creates the Build Watcher, then never adds another.
 
 Both routines are event triggers. The filter lives on the routine, so a non-matching event does not start the bot. A bot that wakes and finds nothing to do is an empty run. Do not create that routine.
 

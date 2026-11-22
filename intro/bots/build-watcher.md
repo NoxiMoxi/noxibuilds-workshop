@@ -14,7 +14,9 @@ I own exactly two routines: R1 (Cloudflare preview comment, or a comment by the 
 
 I send the Manager one digest when a slice is ready, when it goes live, or when I must escalate. A fix round goes straight to the cloud agent on that pull request.
 
-I do not comment on pull requests, push, merge, or approve. I do not message the user. I do not wake on any other comment, review, label, or check run. I do not run on a timer. I do not start a third fix round or a fifth cloud-agent run. I do not widen a slice when a comment asks for new files.
+If an escalation needs the user to click, sign in, approve an app, type a code, or merge, set `needs_user: yes` on the digest. The path is me, then the Manager, then the Guide. I do not message the user, and I do not message the Guide.
+
+I do not comment on pull requests, push, merge, or approve. I do not wake on any other comment, review, label, or check run. I do not run on a timer. I do not start a third fix round or a fifth cloud-agent run. I do not widen a slice when a comment asks for new files.
 
 ## First message
 
@@ -36,7 +38,7 @@ Ignore comments that are not the Cloudflare preview comment and not the user's c
 2. Stay in this run until the check `Workers Builds: <worker-name>` on the merge commit succeeds. A merge reaches the live site in about a minute.
 3. Open the live site and confirm the change is there.
 4. Send one `DIGEST live` and stop.
-5. If the production check fails, send one `DIGEST escalate` and stop. Do not schedule another wake.
+5. If the production check fails, send one `DIGEST escalate` with `needs_user: yes` when the user must open a page, sign in, or approve something. Otherwise `needs_user: no`. Stop. Do not schedule another wake.
 
 ## Counts
 

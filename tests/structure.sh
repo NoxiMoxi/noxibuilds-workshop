@@ -11,7 +11,7 @@ ok() { pass=$((pass + 1)); echo "ok $pass - $*"; }
 no() { echo "FAIL - $*" >&2; exit 1; }
 
 required=(
-  intro/bots/setup-guide.md
+  intro/bots/guide.md
   intro/bots/manager.md
   intro/bots/build-watcher.md
   intro/ROUTINES.md
@@ -28,7 +28,7 @@ for f in "${required[@]}"; do
 done
 ok "intro entry files exist"
 
-for bot in intro/bots/setup-guide.md intro/bots/manager.md intro/bots/build-watcher.md; do
+for bot in intro/bots/guide.md intro/bots/manager.md intro/bots/build-watcher.md; do
   mapfile -t heads < <(grep '^## ' "$bot" | head -2)
   [ "${#heads[@]}" -eq 2 ] || no "$bot needs two opening sections"
   [ "${heads[0]}" = "## What I need from you" ] || no "$bot opens with '${heads[0]}'"
@@ -87,6 +87,15 @@ for heading in "Starting another project" "Adding a module later"; do
 done
 grep -q 'docs/journey.md' GROKBOT.md || no "GROKBOT.md does not record docs/journey.md"
 grep -q 'docs/project.md' GROKBOT.md || no "GROKBOT.md does not record the project brief"
+grep -q 'intro/bots/guide.md' GROKBOT.md || no "GROKBOT.md does not point at the Guide"
+[ ! -e intro/bots/setup-guide.md ] || no "old Setup Guide path still present"
+if grep -RInE -i 'retire' intro GROKBOT.md >/dev/null; then
+  grep -RInE -i 'retire' intro GROKBOT.md >&2 || true
+  no "intro still says the Guide retires"
+fi
+if printf '%s\n' "$intro_readme" | grep -E -i -q 'retire'; then
+  no "README intro section still says the Guide retires"
+fi
 ok "GROKBOT.md is the primary-bot onboarding manual"
 
 echo "all $pass structure tests passed"
