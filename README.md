@@ -1,5 +1,7 @@
 # Workshop Intro
 
+[![checks](https://github.com/NoxiMoxi/noxibuilds-workshop/actions/workflows/checks.yml/badge.svg)](https://github.com/NoxiMoxi/noxibuilds-workshop/actions/workflows/checks.yml)
+
 Point a Grok Bot at this repo and it will set up a small website team: you ask for a change, the bots shepherd a pull request until it is ready with a preview link, you press Merge, and the change shows on your live site.
 
 When one wish no longer fits one change, the optional modules are the next step: [modules/README.md](modules/README.md).

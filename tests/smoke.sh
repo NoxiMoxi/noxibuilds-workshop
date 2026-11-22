@@ -47,7 +47,9 @@ for f in review-log/docs/claude-queue.md review-log/docs/briefs/_loop.md review-
          loop/demo-app-claude-watch.service loop/bin/queue-watch.sh loop/bin/self-check.sh; do
   [ -f "$P/$f" ] || no "missing $f"
 done
-[ "$(stat -c %a "$P/loop/loop.env")" = 600 ] && [ "$(stat -c %a "$P/loop/notify.env")" = 600 ] || no "env files not 600"
+if [ "$(stat -c %a "$P/loop/loop.env")" != 600 ] || [ "$(stat -c %a "$P/loop/notify.env")" != 600 ]; then
+  no "env files not 600"
+fi
 ! grep -rqE '@(PROJECT|PROJECT_DIR|SELF_CHECK|PIECE_USD|SLICE_USD|BRIEF_BYTES)@' "$P" || no "placeholders left"
 [ "$(git -C "$P/review-log" symbolic-ref --short HEAD)" = review-log ] || no "review-log branch"
 [ "$(git -C "$P/review-log" rev-list --count HEAD)" = 1 ] || no "expected one commit"

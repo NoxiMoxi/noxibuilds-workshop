@@ -9,6 +9,9 @@ Thanks for helping. This kit is small on purpose; contributions that keep it sma
 - **Safe by default.** Nothing in the kit may install, enable or start a service, push, or contact the network unless the user runs that step explicitly.
 
 ## Before you open a PR
+
+These checks run automatically on every pull request and on every push to `main`.
+
 ```bash
 make check        # shellcheck (or bash -n), python compile, smoke tests, structure tests, leak scan
 ```
