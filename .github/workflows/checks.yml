@@ -1,0 +1,112 @@
+# Kit checks. The private term list lives in the LEAK_TERMS secret, never in the repo.
+# pull_request, not pull_request_target: a fork pull request must not receive secrets.
+name: checks
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    name: checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Bash syntax
+        run: |
+          set -euo pipefail
+          mapfile -d '' scripts < <(find . -path ./.git -prune -o -type f -name '*.sh' -print0)
+          if [ "${#scripts[@]}" -eq 0 ]; then
+            echo "No shell scripts found."
+            exit 1
+          fi
+          for f in "${scripts[@]}"; do
+            bash -n "$f"
+          done
+          echo "bash -n: ${#scripts[@]} scripts"
+
+      - name: Shellcheck
+        run: |
+          set -euo pipefail
+          mapfile -d '' scripts < <(find . -path ./.git -prune -o -type f -name '*.sh' -print0)
+          if [ "${#scripts[@]}" -eq 0 ]; then
+            echo "No shell scripts found."
+            exit 1
+          fi
+          shellcheck --severity=warning --format=gcc "${scripts[@]}"
+          echo "shellcheck: ${#scripts[@]} scripts"
+
+      - name: Python syntax
+        run: |
+          set -euo pipefail
+          mapfile -d '' pys < <(find . -path ./.git -prune -o -type f -name '*.py' -print0)
+          if [ "${#pys[@]}" -eq 0 ]; then
+            echo "No Python files to check."
+            exit 0
+          fi
+          python3 -m py_compile "${pys[@]}"
+          echo "python syntax: ${#pys[@]} files"
+
+      - name: Structure
+        run: bash tests/structure.sh
+
+      - name: Smoke
+        run: bash tests/smoke.sh
+
+      - name: Leak scan
+        env:
+          LEAK_TERMS: ${{ secrets.LEAK_TERMS }}
+          # Forks do not receive secrets on pull_request. Check the fork flag first so a
+          # push (where pull_request is absent) is not treated as a fork.
+          LEAK_IS_FORK: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == true }}
+          # Public repo slug. Used only to build the allow pattern; never written into the file.
+          LEAK_REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          set +x
+          secret=${LEAK_TERMS:-}
+          unset LEAK_TERMS
+          if [ "${LEAK_IS_FORK:-}" = "true" ]; then
+            unset secret
+            echo "Fork pull request: the private term list is skipped because secrets are unavailable. Generic secret patterns still run."
+            echo "::notice title=Leak scan::Fork pull request: the private term list is skipped because secrets are unavailable. Generic secret patterns still run."
+            bash tests/leak-scan.sh
+          elif [ -z "${secret//[[:space:]]/}" ]; then
+            unset secret
+            echo "LEAK_TERMS is empty, so the private term list is skipped. Generic secret patterns still run."
+            echo "::notice title=Leak scan::LEAK_TERMS is empty, so the private term list is skipped. Generic secret patterns still run."
+            bash tests/leak-scan.sh
+          else
+            terms=$(mktemp /tmp/leak-terms.XXXXXX)
+            trap 'rm -f "$terms"' EXIT
+            chmod 600 "$terms"
+            printf '%s\n' "$secret" > "$terms"
+            unset secret
+            while IFS= read -r term || [ -n "$term" ]; do
+              term=${term%$'\r'}
+              [ -n "$term" ] || continue
+              escaped=$(printf '%s' "$term" | sed -e 's/%/%25/g' -e 's/\r/%0D/g')
+              printf '::add-mask::%s\n' "$escaped"
+            done < "$terms"
+            # Equivalent to github(\\)?\.com/<owner>/<repo>. The slug is escaped here so
+            # this file never contains the owner or repo name.
+            repo_slug=${LEAK_REPOSITORY:?}
+            owner=${repo_slug%%/*}
+            name=${repo_slug#*/}
+            ere_escape() { printf '%s' "$1" | sed -e 's/[][(){}.+*?^$|\\]/\\&/g'; }
+            owner_esc=$(ere_escape "$owner")
+            name_esc=$(ere_escape "$name")
+            allow="github(\\\\)?\\.com/${owner_esc}/${name_esc}"
+            LEAK_TERMS_FILE="$terms" \
+              LEAK_TERMS_ALLOW="$allow" \
+              bash tests/leak-scan.sh
+          fi
