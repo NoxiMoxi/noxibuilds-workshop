@@ -53,6 +53,8 @@ Pin `wrangler` at `>=4.135.0` in `devDependencies`. Older wrangler breaks the pr
 
 ## Builds
 
+The free Cloudflare Workers plan is enough. Free Workers Builds include 3,000 build minutes a month, and one build at a time. Preview links are public by default, even when the GitHub repository is private. That is the free plan as of Nov 2026.
+
 - Preview command: `npx wrangler preview`
 - Deploy command: `npx wrangler deploy`
 - Check name: `Workers Builds: <worker-name>`

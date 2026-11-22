@@ -6,9 +6,9 @@ When one wish no longer fits one change, the optional modules are the next step:
 
 ## What you need
 
-1. A Grok Bot (Cursor) subscription.
+1. One paid plan, [The X Subscription](https://docs.x.ai/x-subscription/pricing), at Premium or higher. The bots, their wake-ups, and the cloud coding agents that open pull requests all run on it. Free and Plus ($8 a month) include neither. Premium ($30 a month) is the minimum that includes Grok Bot and Cursor Cloud Agents. Super and Ultra include both, with a bigger weekly allowance. Grok Bot and Cloud Agents share one weekly usage pool. An older Cursor Pro, Pro+, Ultra, or Teams plan that already includes both is fine. If you have SuperGrok or X Premium+ linked, check first: it may unlock Grok Bot, and it is not confirmed to include Cloud Agents. Prices as of Nov 2026, check the [pricing page](https://cursor.com/pricing).
 2. A free GitHub account.
-3. A free Cloudflare account.
+3. A free Cloudflare account. The free Workers plan is enough.
 
 ## The one sentence
 
@@ -20,7 +20,7 @@ Use the URL of this repository.
 
 ## What happens
 
-Your main Grok Bot reads [GROKBOT.md](GROKBOT.md), asks a few plain questions, and creates a Guide that already has your answers. The Guide stays with you. It walks you one step at a time through accounts, a private page, and the clicks that connect the site. You then meet two bots named after your project, a Manager and a Build Watcher. You make one wish. The Manager plans it and hands the coding to a cloud agent, so your chat with the Manager stays about the wish. When the change is ready, you get a preview link, and the Guide walks you through accepting it, the first time with every click explained. About a minute later the live site shows the change, and the Watcher confirms it.
+Your main Grok Bot reads [GROKBOT.md](GROKBOT.md) and asks a few plain questions. If the paid plan is not there yet, it explains what you need and stops before it creates any bot. When the plan is in place, it creates a Guide that already has your answers. The Guide stays with you. It walks you one step at a time through accounts, a private page, and the clicks that connect the site. You then meet two bots named after your project, a Manager and a Build Watcher. You make one wish. The Manager plans it and hands the coding to a cloud agent, so your chat with the Manager stays about the wish. When the change is ready, you get a preview link, and the Guide walks you through accepting it, the first time with every click explained. About a minute later the live site shows the change, and the Watcher confirms it.
 
 The Intro tier is instructions the bots read. This kit does not copy a starter project into your repository.
 
@@ -28,7 +28,7 @@ Details live in [intro/LOOP.md](intro/LOOP.md), [intro/ROUTINES.md](intro/ROUTIN
 
 ## Cost
 
-The cost is your Grok Bot subscription plus the free GitHub and Cloudflare tiers. The Intro adds no other paid service.
+The one cost is that paid plan. GitHub Free and Cloudflare Workers Free are enough: 3,000 build minutes a month, and one build at a time. Preview links are public by default. The first time a cloud agent runs, it asks you to set a spend limit. This kit adds no other paid service. Prices as of Nov 2026, check the pricing page. How cloud agents are billed is on the [Cloud Agents page](https://cursor.com/docs/cloud-agent).
 
 ## The team
 

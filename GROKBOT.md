@@ -33,7 +33,11 @@ Ask these questions in order. One per message.
 3. What does a first win look like? Ask for something a person could see on the site.
 4. How big might this get? A small site is a fine answer. So is "it will grow past one change."
 5. How comfortable are you with code? Offer three answers: never coded, some, or developer.
-6. What do you already have? Ask which of these are true: a GitHub account, a Cloudflare account, a computer of their own, Claude Code. Missing any of these is fine. The Intro can start from a free GitHub account and a free Cloudflare account.
+6. What do you already have? Ask this in one message. The paid plan is the one hard requirement. Then ask which of these are also true: a GitHub account, a Cloudflare account, a computer of their own, and Claude Code. Missing any of those is fine. A free GitHub account and a free Cloudflare account are enough for the site.
+
+Say why the plan matters, in plain words: the bots, their wake-ups, and the cloud coding agents that open pull requests all run on it. It is one plan, called The X Subscription. Free and Plus ($8 a month) include neither Grok Bot nor Cloud Agents. Premium ($30 a month) is the minimum. It includes Grok Bot, with the routines that wake the bots, and it includes Cursor Cloud Agents. Super and Ultra include both, with a bigger weekly allowance. Grok Bot and Cloud Agents share one weekly usage pool. An older Cursor Pro, Pro+, Ultra, or Teams plan also includes both. A linked SuperGrok or X Premium+ account may unlock Grok Bot, and it is not confirmed to include Cloud Agents, so tell those users to check. The first time a cloud agent runs, it asks them to set a spend limit. Say "prices as of Nov 2026, check the pricing page." The pages are the [pricing page](https://cursor.com/pricing), [The X Subscription prices](https://docs.x.ai/x-subscription/pricing), and [Cloud Agents](https://cursor.com/docs/cloud-agent).
+
+Wait for the answer. If they do not have Premium or higher, and they do not have an older plan that includes both, explain this kindly and stop before you create any bot. Do not create the Guide, and do not create a repository. If they have SuperGrok or X Premium+ and cannot confirm that Cloud Agents are included, stop the same way. They can come back when the plan is in place.
 
 Keep every answer in their words. Do not tidy, merge, or improve what they said.
 
@@ -99,7 +103,7 @@ Write two documents from the interview before you create the Guide. The journey 
 - First win: <their words>
 - How big: <their words>
 - Comfort: never coded | some | developer
-- Already have: GitHub yes/no, Cloudflare yes/no, own computer yes/no, Claude Code yes/no
+- Already have: GitHub yes/no, Cloudflare yes/no, own computer yes/no, Claude Code yes/no, paid plan with Grok Bot plus Cloud Agents yes/no
 - Modules: Intro only, or the list they confirmed
 ```
 
@@ -107,7 +111,7 @@ If their private repository for this project already exists, commit both files o
 
 ## Create the Guide and hand off
 
-Look for a Guide. If there is none, create one bot named Guide. Keep it in a shared sidebar section (Workshop is a fine name). The project's Manager and Build Watcher live in a section named with the display name.
+Look for a Guide only when the paid plan from question 6 is in place. If it is missing, you already stopped. Do not create a bot. If there is no Guide yet, create one bot named Guide. Keep it in a shared sidebar section (Workshop is a fine name). The project's Manager and Build Watcher live in a section named with the display name.
 
 Its standing instructions, in this order:
 
@@ -124,6 +128,7 @@ If you cannot create bots in this app, give them the Guide text plus the packet 
 ## Rules you keep
 
 - One question or one step per message during this handoff.
+- If the paid plan from question 6 is missing, explain it kindly and stop. Create no bots.
 - Private repositories by default.
 - Triggers wake bots. A timer does not.
 - One role per bot.
