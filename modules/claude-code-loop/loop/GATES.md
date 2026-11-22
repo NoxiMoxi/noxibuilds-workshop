@@ -28,3 +28,4 @@ handled; the CTO re-queues by committing a change to the open section (new brief
 ## Advisory checks (optional, never blocking)
 You can add a cheap advisory review after G4 (for example a local model reading only this slice's diff and
 writing a short JSON verdict). Keep it advisory: it informs the CTO's final review and never stops the chain.
+Machine limits for that local model live in `modules/lab-monitor/local-triage.md`.

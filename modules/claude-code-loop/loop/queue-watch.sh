@@ -6,7 +6,7 @@
 #   queue-watch.sh --plan    print what the next run would be (slice, model, budget, prompt size); runs nothing
 #
 # Configuration comes from the file named by $LOOP_CONFIG (shell syntax, re-read before every check, so edits
-# take effect without a restart). See loop/loop.env.example for every key. Nothing is hardcoded: project name,
+# take effect without a restart). See modules/claude-code-loop/loop/loop.env.example for every key. Nothing is hardcoded: project name,
 # paths, models, budgets, brief size cap and the notification webhook all come from config or env.
 #
 # WHY events, not a timer: the loop should cost zero model calls while idle. inotify costs nothing until a file
@@ -32,7 +32,7 @@
 #     LOOP_BRIEF_MAX_BYTES (default 20480). Claude never reads the queue itself.
 #   - The watcher picks the next slice: the first one in `slices:` without a passed-gate record whose sha is
 #     still on origin/<branch>. A restart resumes there.
-#   - After every slice, a zero-token gate (see loop/GATES.md): G0 LOOP line, G1 clean+pushed on the branch,
+#   - After every slice, a zero-token gate (see modules/claude-code-loop/loop/GATES.md): G0 LOOP line, G1 clean+pushed on the branch,
 #     G2 new commits (trailer warn-only), G3 line caps + may_touch scope, G4 self-check (partial on non-final
 #     slices, full on the final slice). One fix run per slice on G1-G4 failure; a second failure stops.
 #   - Budget: each slice gets min(LOOP_SLICE_BUDGET_USD, piece budget left). The piece shares

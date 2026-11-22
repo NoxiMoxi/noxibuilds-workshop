@@ -40,7 +40,7 @@ slice with the reason. Hand the plan file to the CTO; the CTO commits it to the 
 `slicer.py` implements steps 1-6 for Python codebases (other file types join slices through seed globs only):
 
 ```bash
-python3 redteam/slicer.py --repo ../myapp --config redteam/example-config.json \
+python3 modules/redteam/slicer.py --repo ../myapp --config modules/redteam/example-config.json \
     --json plan.json --emit /tmp/slices
 ```
 
