@@ -20,7 +20,7 @@ Use the URL of this repository.
 
 ## What happens
 
-Your main Grok Bot reads [GROKBOT.md](GROKBOT.md), asks a few plain questions, and creates a Guide that already has your answers. The Guide stays with you. It walks you one step at a time through accounts, a private page, and the clicks that connect the site. You then meet two bots named after your project, a Manager and a Build Watcher. You make one wish. The Manager turns it into a small change. When it is ready, the Guide walks you through accepting it, the first time with every click explained. About a minute later the live site shows the change.
+Your main Grok Bot reads [GROKBOT.md](GROKBOT.md), asks a few plain questions, and creates a Guide that already has your answers. The Guide stays with you. It walks you one step at a time through accounts, a private page, and the clicks that connect the site. You then meet two bots named after your project, a Manager and a Build Watcher. You make one wish. The Manager plans it and hands the coding to a cloud agent, so your chat with the Manager stays about the wish. When the change is ready, you get a preview link, and the Guide walks you through accepting it, the first time with every click explained. About a minute later the live site shows the change, and the Watcher confirms it.
 
 The Intro tier is instructions the bots read. This kit does not copy a starter project into your repository.
 
@@ -37,8 +37,8 @@ One role per bot.
 | Bot | File | Role |
 | --- | --- | --- |
 | Guide | [intro/bots/guide.md](intro/bots/guide.md) | Stays with you. Walks every click, login, and merge |
-| `<Project> Manager` | [intro/bots/manager.md](intro/bots/manager.md) | Talks about wishes. Sends clicks to the Guide |
-| `<Project> Build Watcher` | [intro/bots/build-watcher.md](intro/bots/build-watcher.md) | Checks the preview and the live site, then sends one digest |
+| `<Project> Manager` | [intro/bots/manager.md](intro/bots/manager.md) | Talks about wishes. Hands the coding to a cloud agent. Sends clicks to the Guide |
+| `<Project> Build Watcher` | [intro/bots/build-watcher.md](intro/bots/build-watcher.md) | Watches the change, then sends one note: ready or not, and later that the live site updated |
 
 ## Advanced
 
